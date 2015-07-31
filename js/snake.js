@@ -15,7 +15,15 @@
   };
 
   Coord.prototype.plus = function (coord) {
-    
+    return new Coord(this.x + coord.x, this.y + coord.y);
+  };
+
+  Coord.prototype.equals = function (coord) {
+    return (this.x === coord.x) && (this.y === coord.y);
+  };
+
+  Coord.prototype.isOpposite = function (coord) {
+    return (this.x === (-1 * coord.x)) && (this.j === (-1 * coord.y));
   };
 
 })();
