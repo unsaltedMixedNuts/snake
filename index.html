@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Mel's Snake Game</title>
+  </head>
+
+  <body>
+    <h1>Solid Snake</h1>
+
+    <figure class="snake-game"></figure>
+
+    <script src="./js/jquery-1.9.1.js"></script>
+    <script src="./js/snake.js"></script>
+    <script src="./js/snake-view.js"></script>
+
+    <script>
+      $(function () {
+        new SnakeGame.View($(".snake-game"));
+      });
+    </script>
+  </body>
+</html>
