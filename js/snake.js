@@ -18,7 +18,7 @@
   };
 
   Coord.prototype.isOpposite = function (coord) {
-    return (this.x === (-1 * coord.x)) && (this.j === (-1 * coord.y));
+    return (this.x == (-1 * coord.x)) && (this.y == (-1 * coord.y));
   };
 
 
@@ -28,6 +28,10 @@
     this.dir = "N";
     var start_coord = new Coord(Math.floor(board.row_dim/2), Math.floor(board.width_dim/2));
     this.segments = [start_coord];
+    this.board = board;
+
+    this.turning = false;
+    this.growCount = 0;
   };
 
   Snake.DIRS = {
@@ -37,20 +41,97 @@
     "W": new Coord(0, -1)
   };
 
-  Snake.SYMBOL = "S"
+  Snake.SYMBOL = "S";
+  Snake.DEFAULT_GROW_COUNT = 3;
 
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
   };
 
+  Snake.prototype.invalid = function () {
+    if (!this.board.validPosition(this.head())) {
+      return true;
+    }
+
+    for (var i = 0; i < this.segments.length - 1; i++) {
+      if (this.segments[i].equals(this.head())) {
+        return true;
+      }
+    }
+    return false;
+  };
+
   Snake.prototype.move = function () {
     this.segments.push(this.head().plus(Snake.DIRS[this.dir]));
-    this.segments.shift();
+    this.turning = false;
+
+    if (this.appleEaten()) {
+      this.board.apple.respawn();
+    }
+
+    if (this.growCount > 0) {
+      this.growCount -= 1;
+    } else {
+      this.segments.shift();
+    }
+
+    if (this.invalid()) {
+      this.segments = [];
+    }
   };
 
   Snake.prototype.turn = function (dir) {
-    this.dir = dir;
+    if (Snake.DIRS[this.dir].isOpposite(Snake.DIRS[dir]) || this.turning) {
+      return;
+    } else {
+      this.turning = true;
+      this.dir = dir;
+    }
   };
+
+  Snake.prototype.inhabiting = function (array) {
+    var result = false;
+    this.segments.forEach(function (segment) {
+      if (segment.x === array[0] && segment.y === array[1]) {
+        result = true;
+        return result;
+      }
+    });
+    return result;
+  };
+
+  Snake.prototype.appleEaten = function () {
+    if (this.head().equals(this.board.apple.position)) {
+      this.growCount += 3;
+      return true;
+    } else {
+      return false;
+    }
+  };
+
+
+
+
+  // ----------APPLE CLASS----------
+  var Apple = SnakeGame.Apple = function (board) {
+    this.board = board;
+    this.respawn();
+  };
+
+  Apple.prototype.respawn = function () {
+    var x = Math.floor(Math.random() * this.board.row_dim);
+    var y = Math.floor(Math.random() * this.board.width_dim);
+
+    // Don't place an apple where there is a snake
+    while (this.board.snake.inhabiting([x, y])) {
+      x = Math.floor(Math.random() * this.board.row_dim);
+      y = Math.floor(Math.random() * this.board.width_dim);
+    }
+
+    this.position = new Coord(x, y);
+  };
+
+
 
 
 
@@ -59,6 +140,7 @@
     this.row_dim = row_dim;
     this.width_dim = width_dim;
     this.snake = new Snake(this);
+    this.apple = new Apple(this);
   };
 
   Board.EMPTY_SPACE_SYMBOL = ".";
@@ -93,6 +175,11 @@
     }).join("\n");
 
     return formattedBoard;
+  };
+
+  Board.prototype.validPosition = function (coord) {
+    return (coord.x >= 0) && (coord.x < this.row_dim) &&
+    (coord.y >= 0) && (coord.y < this.width_dim);
   };
 
 })();

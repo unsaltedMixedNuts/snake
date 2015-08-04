@@ -5,11 +5,11 @@
 
 // ----------VIEW CLASS----------
   var View = SnakeGame.View = function ($el) {
-    this.steps = 0;
     this.$el = $el;
     var viewRowDimension = 20;
-    var viewWidthDimension = 40;
-    this.board = new SnakeGame.Board(viewRowDimension, viewWidthDimension)
+    var viewWidthDimension = 20;
+    this.board = new SnakeGame.Board(viewRowDimension, viewWidthDimension);
+    this.initialBoardDisplay();
     this.interval = window.setInterval(
       this.step.bind(this), View.MILLISECONDS_PER_STEP
     );
@@ -34,8 +34,15 @@
   };
 
   View.prototype.render = function () {
-    // simple text based rendering
-    this.$el.html("<pre>" + this.board.render() + "</pre>")
+    // ---------text based rendering---------
+    // this.$el.html("<pre>" + this.board.render() + "</pre>")
+    // ---------text based rendering---------
+
+    // ---------css based rendering---------
+    this.updateBoard([this.board.apple.position], "apple")
+    this.updateBoard(this.board.snake.segments, "snake")
+    // ---------css based rendering---------
+
   };
 
   View.prototype.step = function () {
@@ -43,5 +50,28 @@
     this.render();
   };
 
+  View.prototype.initialBoardDisplay = function () {
+    var content = "";
+
+    for (var iRow = 0; iRow < this.board.row_dim; iRow++) {
+      content += "<ul>";
+      for (var jWidth = 0; jWidth < this.board.width_dim; jWidth++) {
+        content += "<li></li>"
+      }
+      content += "</ul>";
+    }
+
+    this.$el.html(content);
+    this.$li = this.$el.find("li");
+  };
+
+  View.prototype.updateBoard = function (coords, className) {
+    this.$li.filter("." + className).removeClass();
+
+    coords.forEach( function (coord) {
+      var absoluteIndex = (coord.x * this.board.width_dim) + coord.y;
+      this.$li.eq(absoluteIndex).addClass(className);
+    }.bind(this));
+  };
 
 })();

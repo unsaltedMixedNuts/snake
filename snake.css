@@ -1,0 +1,67 @@
+body, h1, figure, ul, li {
+  margin: 0;
+  border: 0;
+  padding: 0;
+  outline: 0;
+  font: inherit;
+  vertical-align: inherit;
+  color: inherit;
+  background: transparent;
+  text-align: inherit;
+  text-decoration: inherit;
+}
+
+body {
+    font-family: sans-serif;
+    text-align: center;
+    font-weight: bold;
+}
+
+h1 {
+  font-size: 60px;
+  margin: 30px;
+}
+
+.game-info {
+  background: lightgreen;
+  display: inline-block;
+  width: 100%;
+}
+
+.lives {
+  background: lightyellow;
+  border: 1px solid black;
+  float: left;
+}
+
+.score {
+  background: pink;
+  border: 1px solid black;
+  float: right;
+}
+
+figure {
+  border: 10px solid black;
+  /*width: 700px;*/
+  display: inline-block;
+}
+
+ul {
+  list-style: none;
+}
+
+li {
+  float: left;
+  width: 20px;
+  height: 20px;
+  background: lightyellow;
+  border: 1px solid green;
+}
+
+.apple {
+  background: red;
+}
+
+.snake {
+  background: green;
+}
