@@ -30,8 +30,11 @@
     this.segments = [start_coord];
     this.board = board;
 
+    this.newGame = true;
     this.turning = false;
     this.growCount = 0;
+    this.score = 0;
+    this.gameOver = false;
   };
 
   Snake.DIRS = {
@@ -42,7 +45,8 @@
   };
 
   Snake.SYMBOL = "S";
-  Snake.DEFAULT_GROW_COUNT = 3;
+  Snake.DEFAULT_GROW_INCREMENTS = 3;
+  Snake.DEFAULT_SCORE_INCREMENTS = 100;
 
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
@@ -76,12 +80,16 @@
     }
 
     if (this.invalid()) {
-      this.segments = [];
+      this.gameOver = true;
     }
   };
 
   Snake.prototype.turn = function (dir) {
-    if (Snake.DIRS[this.dir].isOpposite(Snake.DIRS[dir]) || this.turning) {
+    if (this.newGame) {
+      this.newGame = false;
+      this.turning = true;
+      this.dir = dir;
+    } else if (Snake.DIRS[this.dir].isOpposite(Snake.DIRS[dir]) || this.turning) {
       return;
     } else {
       this.turning = true;
@@ -102,7 +110,8 @@
 
   Snake.prototype.appleEaten = function () {
     if (this.head().equals(this.board.apple.position)) {
-      this.growCount += 3;
+      this.growCount += Snake.DEFAULT_GROW_INCREMENTS;
+      this.score += Snake.DEFAULT_SCORE_INCREMENTS;
       return true;
     } else {
       return false;

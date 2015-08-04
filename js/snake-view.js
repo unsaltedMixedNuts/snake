@@ -6,13 +6,19 @@
 // ----------VIEW CLASS----------
   var View = SnakeGame.View = function ($el) {
     this.$el = $el;
-    var viewRowDimension = 20;
-    var viewWidthDimension = 20;
-    this.board = new SnakeGame.Board(viewRowDimension, viewWidthDimension);
+    this.$snakeGame = this.$el.find(".snake-game");
+    this.$score = this.$el.find('.score');
+    this.$highScore = this.$el.find('.lives');
+    this.viewRowDimension = 20;
+    this.viewWidthDimension = 20;
+    this.board = new SnakeGame.Board(this.viewRowDimension, this.viewWidthDimension);
+    this.highScore = 0;
     this.initialBoardDisplay();
-    this.interval = window.setInterval(
-      this.step.bind(this), View.MILLISECONDS_PER_STEP
-    );
+    this.step();
+    // this.interval = window.setInterval(
+    //   this.step.bind(this), View.MILLISECONDS_PER_STEP
+    // );
+    this.pause = true;
 
     $(window).on("keydown", this.handleKeyEvent.bind(this));
   };
@@ -27,30 +33,55 @@
   View.MILLISECONDS_PER_STEP = 100;
 
   View.prototype.handleKeyEvent = function (event) {
-    var newDir = View.KEY_DIRS[event.keyCode];
-    if (newDir) {
-      this.board.snake.turn(newDir);
+    if (event.keyCode === 32) {
+      event.preventDefault();
+      this.togglePause();
+    } else if (event.keyCode === 82) {
+      if (!this.pause) {
+        this.togglePause();
+      }
+      this.board = new SnakeGame.Board(this.viewRowDimension, this.viewWidthDimension);
+      this.initialBoardDisplay();
+      this.step();
+    } else {
+      var newDir = View.KEY_DIRS[event.keyCode];
+      if (newDir) {
+        this.board.snake.turn(newDir);
+        if (this.pause) {
+          this.togglePause();
+        }
+      }
     }
   };
 
   View.prototype.render = function () {
     // ---------text based rendering---------
-    // this.$el.html("<pre>" + this.board.render() + "</pre>")
+    // this.$snakeGame.html("<pre>" + this.board.render() + "</pre>")
     // ---------text based rendering---------
 
     // ---------css based rendering---------
-    this.updateBoard([this.board.apple.position], "apple")
-    this.updateBoard(this.board.snake.segments, "snake")
+    if (!this.board.snake.gameOver) {
+      this.updateBoard([this.board.apple.position], "apple");
+      this.updateBoard(this.board.snake.segments, "snake");
+      this.updateScore();
+    }
     // ---------css based rendering---------
 
   };
 
   View.prototype.step = function () {
-    this.board.snake.move();
-    this.render();
+    if (this.board.snake.gameOver) {
+      alert("You lose!");
+      window.clearInterval(this.interval);
+    } else {
+      this.board.snake.move();
+      this.render();
+    }
   };
 
   View.prototype.initialBoardDisplay = function () {
+    // this.$snakeGame.empty();
+
     var content = "";
 
     for (var iRow = 0; iRow < this.board.row_dim; iRow++) {
@@ -61,8 +92,8 @@
       content += "</ul>";
     }
 
-    this.$el.html(content);
-    this.$li = this.$el.find("li");
+    this.$snakeGame.html(content);
+    this.$li = this.$snakeGame.find("li");
   };
 
   View.prototype.updateBoard = function (coords, className) {
@@ -73,5 +104,30 @@
       this.$li.eq(absoluteIndex).addClass(className);
     }.bind(this));
   };
+
+  View.prototype.updateScore = function () {
+    var scoreContent = "Score: " + this.scoreWithCommas(this.board.snake.score);
+    this.$score.html(scoreContent);
+
+    this.highScore = Math.max(this.highScore, this.board.snake.score)
+    var highScoreContent = "Your highest score this session: " + this.scoreWithCommas(this.highScore);
+    this.$highScore.html(highScoreContent);
+  };
+
+  View.prototype.togglePause = function () {
+    if (this.pause) {
+      this.pause = false;
+      this.interval = window.setInterval(
+        this.step.bind(this), View.MILLISECONDS_PER_STEP
+      );
+    } else {
+      this.pause = true;
+      window.clearInterval(this.interval);
+    }
+  };
+
+  View.prototype.scoreWithCommas = function (score) {
+    return score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+  }
 
 })();
