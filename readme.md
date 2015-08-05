@@ -8,4 +8,4 @@ This is my very own version of the classic Snake game built using JavaScript.
   - Utilizes jQuery to render the game's View and manipulate DOM elements.
 
 ### How To Play:
-  - Play the live version here.
+  - [Play the live version here.](http://example.com)
