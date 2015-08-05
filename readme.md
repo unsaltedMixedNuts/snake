@@ -1,4 +1,4 @@
-# Chess!
+# Snake!
 ![screenshot](assets/screenshot.png)
 Description here.
 
