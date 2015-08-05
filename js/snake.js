@@ -25,26 +25,24 @@
 
 // ----------SNAKE CLASS----------
   var Snake = SnakeGame.Snake = function (board) {
-    this.dir = "N";
-    var start_coord = new Coord(Math.floor(board.row_dim/2), Math.floor(board.width_dim/2));
-    this.segments = [start_coord];
     this.board = board;
-
     this.newGame = true;
-    this.turning = false;
-    this.growCount = 0;
-    this.score = 0;
     this.gameOver = false;
+    this.score = 0;
+    this.dir = "N";
+    this.turning = false;
+    var start_coord = new Coord(Math.floor(board.dim/2), Math.floor(board.dim/2));
+    this.segments = [start_coord];
+    this.growCount = 0;
   };
 
+  // Snake Constants
   Snake.DIRS = {
     "N": new Coord(-1, 0),
     "E": new Coord(0, 1),
     "S": new Coord(1, 0),
     "W": new Coord(0, -1)
   };
-
-  Snake.SYMBOL = "S";
   Snake.DEFAULT_GROW_INCREMENTS = 3;
   Snake.DEFAULT_SCORE_INCREMENTS = 100;
 
@@ -85,10 +83,13 @@
   };
 
   Snake.prototype.turn = function (dir) {
+    // Allow first move to be opposite direction of default direction
     if (this.newGame) {
       this.newGame = false;
       this.turning = true;
       this.dir = dir;
+
+    // Disallow move to be opposite of current direction unless it's first move.
     } else if (Snake.DIRS[this.dir].isOpposite(Snake.DIRS[dir]) || this.turning) {
       return;
     } else {
@@ -97,6 +98,7 @@
     }
   };
 
+  // This tells us if snake is inhabiting a current slot (e.g. an apple's slot).
   Snake.prototype.inhabiting = function (array) {
     var result = false;
     this.segments.forEach(function (segment) {
@@ -128,13 +130,13 @@
   };
 
   Apple.prototype.respawn = function () {
-    var x = Math.floor(Math.random() * this.board.row_dim);
-    var y = Math.floor(Math.random() * this.board.width_dim);
+    var x = Math.floor(Math.random() * this.board.dim);
+    var y = Math.floor(Math.random() * this.board.dim);
 
-    // Don't place an apple where there is a snake
+    // Avoid spawning an apple where there is a snake.
     while (this.board.snake.inhabiting([x, y])) {
-      x = Math.floor(Math.random() * this.board.row_dim);
-      y = Math.floor(Math.random() * this.board.width_dim);
+      x = Math.floor(Math.random() * this.board.dim);
+      y = Math.floor(Math.random() * this.board.dim);
     }
 
     this.position = new Coord(x, y);
@@ -145,50 +147,15 @@
 
 
 // ----------BOARD CLASS----------
-  var Board = SnakeGame.Board = function (row_dim, width_dim) {
-    this.row_dim = row_dim;
-    this.width_dim = width_dim;
+  var Board = SnakeGame.Board = function (dim) {
+    this.dim = dim;
     this.snake = new Snake(this);
     this.apple = new Apple(this);
   };
 
-  Board.EMPTY_SPACE_SYMBOL = ".";
-
-  Board.buildBoard = function (row_dim, width_dim) {
-    var board = [];
-
-    for (var i = 0; i < row_dim; i++) {
-      var row = [];
-      for (var j = 0; j < width_dim; j++) {
-        row.push(Board.EMPTY_SPACE_SYMBOL);
-      }
-
-      board.push(row);
-    }
-
-    return board;
-  };
-
-  Board.prototype.render = function () {
-    var boardWithSnake = Board.buildBoard(this.row_dim, this.width_dim);
-
-    this.snake.segments.forEach( function (segment) {
-      boardWithSnake[segment.x][segment.y] = Snake.SYMBOL;
-    });
-
-    // return board_with_snake
-
-    // join it up
-    var formattedBoard = boardWithSnake.map(function (row) {
-      return row.join("");
-    }).join("\n");
-
-    return formattedBoard;
-  };
-
   Board.prototype.validPosition = function (coord) {
-    return (coord.x >= 0) && (coord.x < this.row_dim) &&
-    (coord.y >= 0) && (coord.y < this.width_dim);
+    return (coord.x >= 0) && (coord.x < this.dim) &&
+    (coord.y >= 0) && (coord.y < this.dim);
   };
 
 })();

@@ -32,7 +32,6 @@
     40: "S",
     37: "W"
   };
-
   View.MILLISECONDS_PER_STEP = 100;
 
   View.prototype.handleKeyEvent = function (event) {
@@ -63,9 +62,9 @@
 
       // Else move the snake with the arrow keys and ignore all other keys.
     } else {
-      event.preventDefault();
       var newDir = View.KEY_DIRS[event.keyCode];
       if (newDir) {
+        event.preventDefault();
         this.board.snake.turn(newDir);
         if (this.pause) {
           $('.start').hide();
