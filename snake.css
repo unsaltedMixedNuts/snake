@@ -1,4 +1,4 @@
-body, h1, figure, ul, li {
+body, h1, h2, figure, ul, li {
   margin: 0;
   border: 0;
   padding: 0;
@@ -12,38 +12,34 @@ body, h1, figure, ul, li {
 }
 
 body {
-    font-family: sans-serif;
-    text-align: center;
-    font-weight: bold;
+  background: #E7E7E8;
+  font-family: sans-serif;
+  text-align: center;
+  font-size: 20px;
 }
+
+div {
+  position: relative;
+  background: white;
+  width: 80%;
+  min-width: 460px;
+  margin: 0 auto;
+  margin-top: 10px;
+  padding: 10px;
+  border: 5px solid black;
+  border-radius: 20px;
+}
+
 
 h1 {
-  font-size: 60px;
-  margin: 30px;
+  font-size: 50px;
+  font-weight: bold;
 }
 
-.game-info {
-  background: lightgreen;
-  display: inline-block;
-  width: 100%;
-}
-
-.lives {
-  background: lightyellow;
-  border: 1px solid black;
-  float: left;
-}
-
-.score {
-  background: pink;
-  border: 1px solid black;
-  float: right;
-}
-
-figure {
-  border: 10px solid black;
-  /*width: 700px;*/
-  display: inline-block;
+h2 {
+  margin-top: 5px;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 ul {
@@ -52,11 +48,81 @@ ul {
 
 li {
   float: left;
+  background: white;
   width: 20px;
   height: 20px;
-  background: lightyellow;
-  border: 1px solid green;
+  border: 1px solid white;
 }
+
+.start {
+  background: green;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  border-radius: 15px;
+}
+
+.pause {
+  display: none;
+  background: green;
+  color: white;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  border-radius: 15px;
+}
+
+.game-over {
+  display: none;
+  background: red;
+  position: absolute;
+  top: 50%;
+  left: 20px;
+  right: 20px;
+  border-radius: 15px;
+}
+
+.header {
+}
+
+.game-info {
+  background: white;
+  font-size: 30px;
+}
+
+.clearfix:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
+.current-score {
+  font-weight: bold;
+  float: left;
+}
+
+.high-score {
+  font-weight: bold;
+  float: right;
+}
+
+.instructions {
+  font-size: 14px;
+}
+
+.shortcut {
+  font-size: 18px;
+}
+
+.snake-game {
+  display: inline-block;
+  border: 10px solid black;
+  min-width: 440px;
+}
+
 
 .apple {
   background: red;
@@ -64,4 +130,15 @@ li {
 
 .snake {
   background: green;
+}
+
+.red-score {
+  color: red;
+}
+.green-score {
+  color: #33CC33;
+}
+
+.small {
+  font-size: 14px;
 }

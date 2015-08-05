@@ -7,8 +7,8 @@
   var View = SnakeGame.View = function ($el) {
     this.$el = $el;
     this.$snakeGame = this.$el.find(".snake-game");
-    this.$score = this.$el.find('.score');
-    this.$highScore = this.$el.find('.lives');
+    this.$score = this.$el.find('.current-score');
+    this.$highScore = this.$el.find('.high-score');
     this.viewRowDimension = 20;
     this.viewWidthDimension = 20;
     this.board = new SnakeGame.Board(this.viewRowDimension, this.viewWidthDimension);
@@ -35,10 +35,16 @@
   View.prototype.handleKeyEvent = function (event) {
     if (event.keyCode === 32) {
       event.preventDefault();
-      this.togglePause();
+      if (!this.board.snake.gameOver) {
+        this.togglePause();
+        $('.start').hide();
+      }
     } else if (event.keyCode === 82) {
+      $('.game-over').hide();
       if (!this.pause) {
         this.togglePause();
+        $('.pause').hide();
+        $('.start').show();
       }
       this.board = new SnakeGame.Board(this.viewRowDimension, this.viewWidthDimension);
       this.initialBoardDisplay();
@@ -48,6 +54,7 @@
       if (newDir) {
         this.board.snake.turn(newDir);
         if (this.pause) {
+          $('.start').hide();
           this.togglePause();
         }
       }
@@ -71,7 +78,8 @@
 
   View.prototype.step = function () {
     if (this.board.snake.gameOver) {
-      alert("You lose!");
+      // alert("You lose!");
+      $('.game-over').show();
       window.clearInterval(this.interval);
     } else {
       this.board.snake.move();
@@ -106,22 +114,43 @@
   };
 
   View.prototype.updateScore = function () {
-    var scoreContent = "Score: " + this.scoreWithCommas(this.board.snake.score);
+    var scoreContent = "Current Score: " + this.scoreWithCommas(this.board.snake.score);
     this.$score.html(scoreContent);
 
+    if (this.board.snake.score != 0 && this.board.snake.score >= this.highScore) {
+      this.$score.removeClass("red-score");
+      this.$score.addClass("green-score");
+    } else if (this.board.snake.score < this.highScore) {
+      this.$score.addClass("red-score");
+      this.$score.removeClass("green-score");
+    } else {
+      this.$score.removeClass("green-score");
+      this.$score.removeClass("red-score");
+    }
+
     this.highScore = Math.max(this.highScore, this.board.snake.score)
-    var highScoreContent = "Your highest score this session: " + this.scoreWithCommas(this.highScore);
+    var highScoreContent = "High Score: " + this.scoreWithCommas(this.highScore);
     this.$highScore.html(highScoreContent);
+
+    if (this.highScore != 0 && this.highScore >= this.board.snake.score) {
+      this.$highScore.removeClass("red-score");
+      this.$highScore.addClass("green-score");
+    } else if (this.highScore != 0) {
+      this.$highScore.addClass("red-score");
+      this.$highScore.removeClass("green-score");
+    }
   };
 
   View.prototype.togglePause = function () {
     if (this.pause) {
       this.pause = false;
+      $('.pause').hide();
       this.interval = window.setInterval(
         this.step.bind(this), View.MILLISECONDS_PER_STEP
       );
     } else {
       this.pause = true;
+      $('.pause').show();
       window.clearInterval(this.interval);
     }
   };

@@ -7,20 +7,51 @@
   </head>
 
   <body>
-    <h1>Solid Snake</h1>
-    <section class="game-info">
-      <section class="lives">
-        This session's highest score:
-      </section>
-      <section class="score">
-        Score
-      </section>
-    </section>
-    <figure class="snake-game"></figure>
+    <div>
 
-    <script src="./js/jquery-1.9.1.js"></script>
-    <script src="./js/snake.js"></script>
-    <script src="./js/snake-view.js"></script>
+      <section class="start">
+        <span>Press "Space" or "Arrow Keys" to Start.</span>
+      </section>
+
+      <section class="pause">
+        <h1>Paused</h1>
+        <span>Press "Space" or "Arrow Keys" to Resume.</span>
+      </section>
+
+      <section class="game-over">
+        <h1>Game Over</h1>
+      </section>
+
+      <section class="header">
+        <h1>Snake</h1>
+      </section>
+
+      <section class="game-info">
+        <section class="clearfix">
+          <section class="current-score"></section>
+          <section class="high-score"></section>
+        </section>
+
+        <section class="instructions">
+          <!-- <h2>Game Objective</h2>
+          <span>Eat as many red apples as you can while avoiding contact with everything else.</span> -->
+          <h2>Keyboard Shortcuts</h2>
+          <span>Press </span><span class="shortcut">"R"</span><span>to Restart Without Losing Your High Score</span><br>
+          <span>Press </span><span class="shortcut">"Space"</span><span> to Pause / Resume</span><br>
+          <span>Press </span><span class="shortcut">"Up", "Down", "Left", and "Right"</span><span> Arrows to Move</span>
+        </section>
+
+      </section>
+
+      <figure class="snake-game group"></figure><br>
+
+      <span><strong>Snake</strong><br><span class="small">by Mel</span></span>
+
+      <script src="./js/jquery-1.9.1.js"></script>
+      <script src="./js/snake.js"></script>
+      <script src="./js/snake-view.js"></script>
+
+    </div>
 
     <script>
       $(function () {
