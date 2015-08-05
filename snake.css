@@ -37,6 +37,7 @@ h1 {
 }
 
 h2 {
+  text-decoration: underline;
   margin-top: 5px;
   font-size: 25px;
   font-weight: bold;
@@ -110,11 +111,14 @@ li {
 }
 
 .instructions {
-  font-size: 14px;
+  font-size: 16px;
+  font-weight: bold;
 }
 
 .shortcut {
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: bold;
+  color: blue;
 }
 
 .snake-game {
