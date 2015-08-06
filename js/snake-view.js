@@ -83,6 +83,7 @@
       // If "spacebar" (keyCode 32) is pressed:
       event.preventDefault();
       if (!this.board.snake.gameOver) {
+        this.board.snake.newGame = false;
         // Remove "start" message if it is displayed and toggle pause.
         $('.start').hide();
         this.togglePause();
@@ -112,6 +113,7 @@
       if (newDir) {
         event.preventDefault();
         this.board.snake.turn(newDir);
+        this.board.snake.newGame = false;
         if (this.pause) {
           $('.start').hide();
           this.togglePause();

@@ -63,7 +63,6 @@
   };
 
   Snake.prototype.move = function () {
-    this.newGame = false;
     this.segments.push(this.head().plus(Snake.DIRS[this.dir]));
     this.turning = false;
 
