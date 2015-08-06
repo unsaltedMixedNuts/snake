@@ -42,7 +42,7 @@ h2 {
   font-weight: bold;
 }
 
-a {
+a, a:visited {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
