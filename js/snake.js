@@ -44,7 +44,6 @@
     "W": new Coord(0, -1)
   };
   Snake.DEFAULT_GROW_INCREMENTS = 3;
-  Snake.DEFAULT_SCORE_INCREMENTS = 100;
 
   Snake.prototype.head = function () {
     return this.segments[this.segments.length - 1];
@@ -113,7 +112,7 @@
   Snake.prototype.appleEaten = function () {
     if (this.head().equals(this.board.apple.position)) {
       this.growCount += Snake.DEFAULT_GROW_INCREMENTS;
-      this.score += Snake.DEFAULT_SCORE_INCREMENTS;
+      this.score += this.board.scoreIncrements;
       return true;
     } else {
       return false;
@@ -149,9 +148,13 @@
 // ----------BOARD CLASS----------
   var Board = SnakeGame.Board = function (dim) {
     this.dim = dim;
+    this.scoreIncrements = Board.DEFAULT_SCORE_INCREMENTS;
     this.snake = new Snake(this);
     this.apple = new Apple(this);
   };
+
+  // Board Constants
+  Board.DEFAULT_SCORE_INCREMENTS = 100;
 
   Board.prototype.validPosition = function (coord) {
     return (coord.x >= 0) && (coord.x < this.dim) &&

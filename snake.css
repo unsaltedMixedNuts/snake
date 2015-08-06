@@ -62,6 +62,8 @@ li {
 }
 
 .start {
+  /*padding: 5px;*/
+  line-height: 2;
   background: green;
   color: white;
   position: absolute;
@@ -69,6 +71,10 @@ li {
   left: 20px;
   right: 20px;
   border-radius: 15px;
+}
+
+.game-speed {
+  padding: 0 20px;
 }
 
 .pause {
@@ -93,6 +99,10 @@ li {
 }
 
 .header {
+}
+
+.title {
+
 }
 
 .game-info {

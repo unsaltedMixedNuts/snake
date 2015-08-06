@@ -12,11 +12,11 @@
     this.$highScore = this.$el.find('.high-score');
     this.highScore = 0;
 
-    // CSS is styled specifically for this.dimensions to be 20
     this.dimensions = 20;
+    this.scoreIncrements = 100;
 
     // Setup and display board and pause game
-    this.board = new SnakeGame.Board(this.dimensions);
+    this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
     this.initialBoardDisplay();
     this.step();
     this.pause = true;
@@ -36,24 +36,70 @@
 
   View.prototype.handleKeyEvent = function (event) {
 
-    // If spacebar (keyCode 32) is pressed:
-    if (event.keyCode === 32) {
+    if (event.keyCode === 48 && this.board.snake.newGame) {
+      // If "0" (keyCode 48) is pressed:
+      event.preventDefault();
+      if (View.MILLISECONDS_PER_STEP != 50) {
+        this.board.scoreIncrements = 250;
+        this.highScore = 0
+        this.updateScore();
+        View.MILLISECONDS_PER_STEP = 50;
+        this.$el.find(".title").html("El Serpent Loco")
+      }
+    } else if (event.keyCode === 49 && this.board.snake.newGame) {
+      // If "1" (keyCode 49) is pressed:
+      event.preventDefault();
+      if (View.MILLISECONDS_PER_STEP != 100) {
+        this.board.scoreIncrements = 100;
+        this.highScore = 0
+        this.updateScore();
+        View.MILLISECONDS_PER_STEP = 100;
+        this.$el.find(".title").html("Snake")
+      }
+
+    } else if (event.keyCode === 50 && this.board.snake.newGame) {
+      // If "2" (keyCode 50) is pressed:
+      event.preventDefault();
+      if (View.MILLISECONDS_PER_STEP != 150) {
+        this.board.scoreIncrements = 50;
+        this.highScore = 0
+        this.updateScore();
+        View.MILLISECONDS_PER_STEP = 150;
+        this.$el.find(".title").html("Slow Snake")
+      }
+
+    } else if (event.keyCode === 51 && this.board.snake.newGame) {
+      // If "3" (keyCode 51) is pressed:
+      event.preventDefault();
+      if (View.MILLISECONDS_PER_STEP != 200) {
+        this.board.scoreIncrements = 25;
+        this.highScore = 0
+        this.updateScore();
+        View.MILLISECONDS_PER_STEP = 200;
+        this.$el.find(".title").html("Slowest Snake")
+      }
+
+    } else if (event.keyCode === 32) {
+      // If "spacebar" (keyCode 32) is pressed:
       event.preventDefault();
       if (!this.board.snake.gameOver) {
         // Remove "start" message if it is displayed and toggle pause.
         $('.start').hide();
         this.togglePause();
       }
-    // If "R" (keyCode 82) is pressed:
     } else if (event.keyCode === 82) {
+      // If "R" (keyCode 82) is pressed:
       event.preventDefault();
+
       //Remove "game over", pause game, and swap pause message for start message.
       $('.game-over').hide();
+
       if (!this.pause) {
         this.togglePause();
-        $('.pause').hide();
-        $('.start').show();
       }
+
+      $('.pause').hide();
+      $('.start').show();
 
       //Replace board with a new board.
       this.board = new SnakeGame.Board(this.dimensions);
@@ -123,15 +169,15 @@
     this.$score.html(scoreContent);
 
     //Current Score format
-    if (this.board.snake.score != 0 && this.board.snake.score >= this.highScore) {
+    if (this.board.snake.score === 0) {
+      this.$score.removeClass("red-score");
+      this.$score.removeClass("green-score");
+    } else if (this.board.snake.score >= this.highScore) {
       this.$score.removeClass("red-score");
       this.$score.addClass("green-score");
     } else if (this.board.snake.score < this.highScore) {
       this.$score.removeClass("green-score");
       this.$score.addClass("red-score");
-    } else {
-      this.$score.removeClass("red-score");
-      this.$score.removeClass("green-score");
     }
 
     // High score content
@@ -140,12 +186,12 @@
     this.$highScore.html(highScoreContent);
 
     // High score format
-    if (this.highScore != 0 && this.highScore >= this.board.snake.score) {
+    if (this.highScore === 0) {
+      this.$highScore.removeClass("red-score");
+      this.$highScore.removeClass("green-score");
+    } else if (this.highScore >= this.board.snake.score) {
       this.$highScore.removeClass("red-score");
       this.$highScore.addClass("green-score");
-    } else if (this.highScore != 0) {
-      this.$highScore.removeClass("green-score");
-      this.$highScore.addClass("red-score");
     }
   };
 
