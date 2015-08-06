@@ -124,7 +124,7 @@ li {
 .snake-game {
   display: inline-block;
   border: 10px solid black;
-  min-width: 440px;
+  width: 440px;
 }
 
 
