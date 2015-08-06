@@ -47,6 +47,12 @@ ul {
   list-style: none;
 }
 
+ul:after {
+  content: "";
+  clear: both;
+  display: block;
+}
+
 li {
   float: left;
   background: white;
@@ -124,7 +130,6 @@ li {
 .snake-game {
   display: inline-block;
   border: 10px solid black;
-  width: 440px;
 }
 
 
