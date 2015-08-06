@@ -40,6 +40,7 @@
       // If "0" (keyCode 48) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 50) {
+        this.scoreIncrements = 250;
         this.board.scoreIncrements = 250;
         this.highScore = 0
         this.updateScore();
@@ -50,6 +51,7 @@
       // If "1" (keyCode 49) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 100) {
+        this.scoreIncrements = 100;
         this.board.scoreIncrements = 100;
         this.highScore = 0
         this.updateScore();
@@ -61,6 +63,7 @@
       // If "2" (keyCode 50) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 150) {
+        this.scoreIncrements = 50;
         this.board.scoreIncrements = 50;
         this.highScore = 0
         this.updateScore();
@@ -72,6 +75,7 @@
       // If "3" (keyCode 51) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 200) {
+        this.scoreIncrements = 25;
         this.board.scoreIncrements = 25;
         this.highScore = 0
         this.updateScore();
@@ -88,6 +92,7 @@
         $('.start').hide();
         this.togglePause();
       }
+
     } else if (event.keyCode === 82) {
       // If "R" (keyCode 82) is pressed:
       event.preventDefault();
@@ -103,7 +108,7 @@
       $('.start').show();
 
       //Replace board with a new board.
-      this.board = new SnakeGame.Board(this.dimensions);
+      this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
       this.initialBoardDisplay();
       this.step();
 

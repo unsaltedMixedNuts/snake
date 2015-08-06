@@ -145,15 +145,12 @@
 
 
 // ----------BOARD CLASS----------
-  var Board = SnakeGame.Board = function (dim) {
+  var Board = SnakeGame.Board = function (dim, scoreIncrements) {
     this.dim = dim;
-    this.scoreIncrements = Board.DEFAULT_SCORE_INCREMENTS;
+    this.scoreIncrements = scoreIncrements;
     this.snake = new Snake(this);
     this.apple = new Apple(this);
   };
-
-  // Board Constants
-  Board.DEFAULT_SCORE_INCREMENTS = 100;
 
   Board.prototype.validPosition = function (coord) {
     return (coord.x >= 0) && (coord.x < this.dim) &&
