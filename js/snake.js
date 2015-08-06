@@ -63,6 +63,7 @@
   };
 
   Snake.prototype.move = function () {
+    this.newGame = false;
     this.segments.push(this.head().plus(Snake.DIRS[this.dir]));
     this.turning = false;
 
@@ -84,7 +85,6 @@
   Snake.prototype.turn = function (dir) {
     // Allow first move to be opposite direction of default direction
     if (this.newGame) {
-      this.newGame = false;
       this.turning = true;
       this.dir = dir;
 
