@@ -130,6 +130,7 @@
 
   View.prototype.step = function () {
     if (this.board.snake.gameOver) {
+      this.updateGameOverModal();
       $('.game-over').show();
       window.clearInterval(this.interval);
     } else {
@@ -193,6 +194,11 @@
       this.$highScore.removeClass("red-score");
       this.$highScore.addClass("green-score");
     }
+  };
+
+  View.prototype.updateGameOverModal = function () {
+    var scoreNoteContent = "You scored " + this.board.snake.score + " points!"
+    $(".score-notification").html(scoreNoteContent);
   };
 
   View.prototype.togglePause = function () {

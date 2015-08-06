@@ -98,6 +98,13 @@ li {
   border-radius: 15px;
 }
 
+.score-notification {
+  color: cyan;
+  font-size: 30px;
+  font-style: oblique;
+  padding-bottom: 10px;
+}
+
 .header {
 }
 
