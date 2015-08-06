@@ -1,4 +1,4 @@
-body, h1, h2, figure, a, ul, li {
+body, h1, h2, figure, a, a:visited, ul, li {
   margin: 0;
   border: 0;
   padding: 0;
