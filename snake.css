@@ -1,4 +1,4 @@
-body, h1, h2, figure, ul, li {
+body, h1, h2, figure, a, ul, li {
   margin: 0;
   border: 0;
   padding: 0;
@@ -40,6 +40,16 @@ h2 {
   margin-top: 5px;
   font-size: 25px;
   font-weight: bold;
+}
+
+a {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
+
+a:hover {
+  color: green;
 }
 
 ul {
