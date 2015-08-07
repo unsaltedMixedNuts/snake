@@ -71,7 +71,6 @@ li {
 }
 
 .start {
-  line-height: 2;
   background: green;
   color: white;
   position: absolute;
@@ -81,8 +80,15 @@ li {
   border-radius: 15px;
 }
 
-.game-speed {
-  padding: 0 20px;
+.faux-link {
+  cursor: pointer;
+  padding: 5px 0;
+  /*text-decoration: underline;*/
+}
+
+.faux-link:hover {
+  color: darkorange;
+  text-decoration: underline;
 }
 
 .pause {
@@ -180,4 +186,8 @@ li {
 .play-again {
   font-size: 20px;
   font-weight: bold;
+}
+
+.play-again:hover {
+  color: cyan;
 }

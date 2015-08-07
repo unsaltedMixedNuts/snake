@@ -10,23 +10,23 @@
     <div>
 
       <section class="start">
-          Press "0" for fast speed.<br>
-          Press "1" for normal speed.<br>
-          Press "2" for slow speed.<br>
-          Press "3" for slowest speed.<br>
-          Press "Arrow Keys" or "Space" to Start.
+          <section id="fast-speed" class="faux-link">Press "0" for fast speed.</section>
+          <section id="normal-speed" class="faux-link">Press "1" for normal speed.</section>
+          <section id="slow-speed" class="faux-link">Press "2" for slow speed.</section>
+          <section id="slowest-speed" class="faux-link">Press "3" for slowest speed.</section>
+          <section class="start-game faux-link">Press "Arrow Keys" or "Space" to Start.</section>
       </section>
 
       <section class="pause">
         <h1>Paused</h1>
-        <span>Press "Arrow Keys" or "Space" to Resume.</span><br>
-        <span>Press "R" to start anew.</span><br>
+        <span class="start-game faux-link">Press "Arrow Keys" or "Space" to Resume.</span><br>
+        <span class="restart-game faux-link">Press "R" to start anew.</span><br>
       </section>
 
       <section class="game-over">
         <h1>Game Over</h1>
         <section class="score-notification"></section>
-        <span class="play-again">Press "R" to play again!</span>
+        <span class="play-again restart-game faux-link">Press "R" to play again!</span>
       </section>
 
       <section class="header">
@@ -41,9 +41,17 @@
 
         <section class="instructions">
           <h2>Keyboard Shortcuts</h2>
-          <span>Press </span><span class="shortcut">"R"</span><span> to restart without losing your high score.</span><br>
-          <span>Press </span><span class="shortcut">"Space"</span><span> to pause or resume.</span><br>
-          <span>Press </span><span class="shortcut">"Arrow Keys"</span><span> to move your snake and eat apples.</span>
+          <span>Press </span>
+          <span class="shortcut restart-game faux-link">"R"</span>
+          <span> to restart without losing your high score.</span><br>
+
+          <span>Press </span>
+          <span class="shortcut start-game faux-link">"Space"</span>
+          <span> to pause or resume.</span><br>
+
+          <span>Press </span>
+          <span class="shortcut">"Arrow Keys"</span>
+          <span> to move your snake and eat apples.</span>
         </section>
 
       </section>
@@ -52,10 +60,19 @@
 
       <span><strong>Snake Game</strong>
         <span class="small">
-          by <a href="http://www.melmuhammad.com" target="_blank"><strong>Mel</strong></a>
+          by
+          <a href="http://www.melmuhammad.com" target="_blank">
+            <strong>Mel</strong>
+          </a>
         </span>
       </span><br>
-      <span class="small"><strong>Game Objective:</strong> Navigate green blocks into the red blocks while avoiding everything else. </span>
+      <span class="small">
+        <strong>
+          <a href="https://en.wikipedia.org/wiki/Snake_(video_game)" target="_blank">
+            Game Objective:</a>
+        </strong>
+          Navigate green blocks into the red blocks while avoiding everything else.
+      </span>
 
       <script src="./js/jquery-1.9.1.js"></script>
       <script src="./js/snake.js"></script>

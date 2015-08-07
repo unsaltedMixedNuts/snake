@@ -18,11 +18,18 @@
     // Setup and display board and pause game
     this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
     this.initialBoardDisplay();
-    this.step();
+    this.render();
+    // this.step();
     this.pause = true;
 
     // Event handlers
     $(window).on("keydown", this.handleKeyEvent.bind(this));
+    $("#fast-speed").on("click", this.fastSpeedSnake.bind(this));
+    $("#normal-speed").on("click", this.normalSpeedSnake.bind(this));
+    $("#slow-speed").on("click", this.slowSpeedSnake.bind(this));
+    $("#slowest-speed").on("click", this.slowestSpeedSnake.bind(this));
+    $(".start-game").on("click", this.pressSpacebar.bind(this));
+    $(".restart-game").on("click", this.keypressR.bind(this));
   };
 
   // Constants
@@ -40,77 +47,83 @@
       // If "0" (keyCode 48) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 50) {
-        this.scoreIncrements = 250;
-        this.board.scoreIncrements = 250;
-        this.highScore = 0
-        this.updateScore();
-        View.MILLISECONDS_PER_STEP = 50;
-        this.$el.find(".title").html("El Serpent Loco")
+        this.fastSpeedSnake();
+        // this.scoreIncrements = 250;
+        // this.board.scoreIncrements = 250;
+        // this.highScore = 0
+        // this.updateScore();
+        // View.MILLISECONDS_PER_STEP = 50;
+        // this.$el.find(".title").html("El Serpent Loco")
       }
     } else if (event.keyCode === 49 && this.board.snake.newGame) {
       // If "1" (keyCode 49) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 100) {
-        this.scoreIncrements = 100;
-        this.board.scoreIncrements = 100;
-        this.highScore = 0
-        this.updateScore();
-        View.MILLISECONDS_PER_STEP = 100;
-        this.$el.find(".title").html("Snake")
+        this.normalSpeedSnake();
+        // this.scoreIncrements = 100;
+        // this.board.scoreIncrements = 100;
+        // this.highScore = 0
+        // this.updateScore();
+        // View.MILLISECONDS_PER_STEP = 100;
+        // this.$el.find(".title").html("Snake")
       }
 
     } else if (event.keyCode === 50 && this.board.snake.newGame) {
       // If "2" (keyCode 50) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 150) {
-        this.scoreIncrements = 50;
-        this.board.scoreIncrements = 50;
-        this.highScore = 0
-        this.updateScore();
-        View.MILLISECONDS_PER_STEP = 150;
-        this.$el.find(".title").html("Slow Snake")
+        this.slowSpeedSnake();
+        // this.scoreIncrements = 50;
+        // this.board.scoreIncrements = 50;
+        // this.highScore = 0
+        // this.updateScore();
+        // View.MILLISECONDS_PER_STEP = 150;
+        // this.$el.find(".title").html("Slow Snake")
       }
 
     } else if (event.keyCode === 51 && this.board.snake.newGame) {
       // If "3" (keyCode 51) is pressed:
       event.preventDefault();
       if (View.MILLISECONDS_PER_STEP != 200) {
-        this.scoreIncrements = 25;
-        this.board.scoreIncrements = 25;
-        this.highScore = 0
-        this.updateScore();
-        View.MILLISECONDS_PER_STEP = 200;
-        this.$el.find(".title").html("Slowest Snake")
+        this.slowestSpeedSnake();
+        // this.scoreIncrements = 25;
+        // this.board.scoreIncrements = 25;
+        // this.highScore = 0
+        // this.updateScore();
+        // View.MILLISECONDS_PER_STEP = 200;
+        // this.$el.find(".title").html("Slowest Snake")
       }
 
     } else if (event.keyCode === 32) {
       // If "spacebar" (keyCode 32) is pressed:
       event.preventDefault();
-      if (!this.board.snake.gameOver) {
-        this.board.snake.newGame = false;
-        // Remove "start" message if it is displayed and toggle pause.
-        $('.start').hide();
-        this.togglePause();
-      }
+      this.pressSpacebar();
+      // if (!this.board.snake.gameOver) {
+      //   this.board.snake.newGame = false;
+      //   // Remove "start" message if it is displayed and toggle pause.
+      //   $('.start').hide();
+      //   this.togglePause();
+      // }
 
     } else if (event.keyCode === 82) {
       // If "R" (keyCode 82) is pressed:
       event.preventDefault();
 
-      //Remove "game over", pause game, and swap pause message for start message.
-      $('.game-over').hide();
-
-      if (!this.pause) {
-        this.togglePause();
-      }
-
-      $('.pause').hide();
-      $('.start').show();
-
-      //Replace board with a new board.
-      this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
-      this.initialBoardDisplay();
-      this.step();
+      this.keypressR();
+      // //Remove "game over", pause game, and swap pause message for start message.
+      // $('.game-over').hide();
+      //
+      // if (!this.pause) {
+      //   this.togglePause();
+      // }
+      //
+      // $('.pause').hide();
+      // $('.start').show();
+      //
+      // //Replace board with a new board.
+      // this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
+      // this.initialBoardDisplay();
+      // this.step();
 
       // Else move the snake with the arrow keys and ignore all other keys.
     } else {
@@ -225,5 +238,82 @@
   View.prototype.scoreWithCommas = function (score) {
     return score.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
   }
+
+  View.prototype.fastSpeedSnake = function () {
+    if (View.MILLISECONDS_PER_STEP != 50) {
+      this.changeSnakeSpeed(250, 50);
+      // this.scoreIncrements = 250;
+      // this.board.scoreIncrements = 250;
+      // this.resetHighScore();
+      // View.MILLISECONDS_PER_STEP = 50;
+      this.$el.find(".title").html("El Serpent Loco");
+    }
+  };
+
+  View.prototype.normalSpeedSnake = function () {
+    if (View.MILLISECONDS_PER_STEP != 100) {
+      this.changeSnakeSpeed(100, 100);
+      // this.scoreIncrements = 100;
+      // this.board.scoreIncrements = 100;
+      // this.resetHighScore();
+      // View.MILLISECONDS_PER_STEP = 100;
+      this.$el.find(".title").html("Snake");
+    }
+  };
+
+  View.prototype.slowSpeedSnake = function () {
+    if (View.MILLISECONDS_PER_STEP != 150) {
+      this.changeSnakeSpeed(50, 150);
+      // this.scoreIncrements = 50;
+      // this.board.scoreIncrements = 50;
+      // this.resetHighScore();
+      // View.MILLISECONDS_PER_STEP = 150;
+      this.$el.find(".title").html("Slow Snake");
+    }
+  };
+
+  View.prototype.slowestSpeedSnake = function () {
+    if (View.MILLISECONDS_PER_STEP != 50) {
+      this.changeSnakeSpeed(25, 200);
+      // this.scoreIncrements = 25;
+      // this.board.scoreIncrements = 25;
+      // this.resetHighScore();
+      // View.MILLISECONDS_PER_STEP = 200;
+      this.$el.find(".title").html("Slowest Snake");
+    }
+  };
+
+  View.prototype.changeSnakeSpeed = function (scoreIncrements, stepMilliseconds) {
+    this.scoreIncrements = scoreIncrements;
+    this.board.scoreIncrements = scoreIncrements;
+    this.highScore = 0;
+    this.updateScore();
+    View.MILLISECONDS_PER_STEP = stepMilliseconds;
+  };
+
+  View.prototype.pressSpacebar = function () {
+    if (!this.board.snake.gameOver) {
+      this.board.snake.newGame = false;
+      // Remove "start" message if it is displayed and toggle pause.
+      $('.start').hide();
+      this.togglePause();
+    }
+  };
+
+  View.prototype.keypressR = function () {
+    if (!this.pause) {
+      this.togglePause();
+    }
+
+    //Remove "game over", pause game, and swap pause message for start message.
+    $('.game-over').hide();
+    $('.pause').hide();
+    $('.start').show();
+    //Replace board with a new board.
+    this.board = new SnakeGame.Board(this.dimensions, this.scoreIncrements);
+    this.initialBoardDisplay();
+    // this.step();
+    this.render();
+  };
 
 })();
