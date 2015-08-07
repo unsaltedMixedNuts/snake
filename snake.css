@@ -46,10 +46,16 @@ a, a:visited {
   cursor: pointer;
   color: blue;
   text-decoration: underline;
+  font-weight: bold;
 }
 
 a:hover {
   color: green;
+}
+
+a:active {
+  color: #004D00;
+  font-weight: normal;
 }
 
 ul {
@@ -89,6 +95,11 @@ li {
 .faux-link:hover {
   color: darkorange;
   text-decoration: underline;
+}
+
+.faux-link:active {
+  font-weight: bold;
+  color: #b26200
 }
 
 .pause {
@@ -190,4 +201,22 @@ li {
 
 .play-again:hover {
   color: cyan;
+  font-weight: normal;
+}
+
+.play-again:active {
+  color: #00CCCC;
+}
+
+.speed-notification {
+  display: none;
+  position: absolute;
+  top: 37.5%;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  width: 250px;
+  background: green;
+  color: white;
+  border-radius: 15px;
 }

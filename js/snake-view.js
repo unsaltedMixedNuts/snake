@@ -30,6 +30,9 @@
     $("#slowest-speed").on("click", this.slowestSpeedSnake.bind(this));
     $(".start-game").on("click", this.pressSpacebar.bind(this));
     $(".restart-game").on("click", this.keypressR.bind(this));
+    var speedElements = "#fast-speed, #normal-speed, #slow-speed, #slowest-speed";
+    $(speedElements).on("click", this.flashSpeedNotification.bind(this));
+
   };
 
   // Constants
@@ -46,53 +49,49 @@
     if (event.keyCode === 48 && this.board.snake.newGame) {
       // If "0" (keyCode 48) is pressed:
       event.preventDefault();
-      if (View.MILLISECONDS_PER_STEP != 50) {
         this.fastSpeedSnake();
+        this.flashSpeedNotification();
         // this.scoreIncrements = 250;
         // this.board.scoreIncrements = 250;
         // this.highScore = 0
         // this.updateScore();
         // View.MILLISECONDS_PER_STEP = 50;
         // this.$el.find(".title").html("El Serpent Loco")
-      }
     } else if (event.keyCode === 49 && this.board.snake.newGame) {
       // If "1" (keyCode 49) is pressed:
       event.preventDefault();
-      if (View.MILLISECONDS_PER_STEP != 100) {
         this.normalSpeedSnake();
+        this.flashSpeedNotification();
         // this.scoreIncrements = 100;
         // this.board.scoreIncrements = 100;
         // this.highScore = 0
         // this.updateScore();
         // View.MILLISECONDS_PER_STEP = 100;
         // this.$el.find(".title").html("Snake")
-      }
 
     } else if (event.keyCode === 50 && this.board.snake.newGame) {
       // If "2" (keyCode 50) is pressed:
       event.preventDefault();
-      if (View.MILLISECONDS_PER_STEP != 150) {
         this.slowSpeedSnake();
+        this.flashSpeedNotification();
         // this.scoreIncrements = 50;
         // this.board.scoreIncrements = 50;
         // this.highScore = 0
         // this.updateScore();
         // View.MILLISECONDS_PER_STEP = 150;
         // this.$el.find(".title").html("Slow Snake")
-      }
 
     } else if (event.keyCode === 51 && this.board.snake.newGame) {
       // If "3" (keyCode 51) is pressed:
       event.preventDefault();
-      if (View.MILLISECONDS_PER_STEP != 200) {
         this.slowestSpeedSnake();
+        this.flashSpeedNotification();
         // this.scoreIncrements = 25;
         // this.board.scoreIncrements = 25;
         // this.highScore = 0
         // this.updateScore();
         // View.MILLISECONDS_PER_STEP = 200;
         // this.$el.find(".title").html("Slowest Snake")
-      }
 
     } else if (event.keyCode === 32) {
       // If "spacebar" (keyCode 32) is pressed:
@@ -240,47 +239,39 @@
   }
 
   View.prototype.fastSpeedSnake = function () {
-    if (View.MILLISECONDS_PER_STEP != 50) {
       this.changeSnakeSpeed(250, 50);
       // this.scoreIncrements = 250;
       // this.board.scoreIncrements = 250;
       // this.resetHighScore();
       // View.MILLISECONDS_PER_STEP = 50;
       this.$el.find(".title").html("El Serpent Loco");
-    }
   };
 
   View.prototype.normalSpeedSnake = function () {
-    if (View.MILLISECONDS_PER_STEP != 100) {
       this.changeSnakeSpeed(100, 100);
       // this.scoreIncrements = 100;
       // this.board.scoreIncrements = 100;
       // this.resetHighScore();
       // View.MILLISECONDS_PER_STEP = 100;
       this.$el.find(".title").html("Snake");
-    }
   };
 
   View.prototype.slowSpeedSnake = function () {
-    if (View.MILLISECONDS_PER_STEP != 150) {
       this.changeSnakeSpeed(50, 150);
       // this.scoreIncrements = 50;
       // this.board.scoreIncrements = 50;
       // this.resetHighScore();
       // View.MILLISECONDS_PER_STEP = 150;
       this.$el.find(".title").html("Slow Snake");
-    }
   };
 
   View.prototype.slowestSpeedSnake = function () {
-    if (View.MILLISECONDS_PER_STEP != 50) {
       this.changeSnakeSpeed(25, 200);
       // this.scoreIncrements = 25;
       // this.board.scoreIncrements = 25;
       // this.resetHighScore();
       // View.MILLISECONDS_PER_STEP = 200;
       this.$el.find(".title").html("Slowest Snake");
-    }
   };
 
   View.prototype.changeSnakeSpeed = function (scoreIncrements, stepMilliseconds) {
@@ -314,6 +305,33 @@
     this.initialBoardDisplay();
     // this.step();
     this.render();
+  };
+
+  View.prototype.flashSpeedNotification = function () {
+    if (this.notifying) {
+      return;
+    } else {
+
+      this.notifying = true;
+      var content = View.SPEEDS[View.MILLISECONDS_PER_STEP] + " selected";
+      $('.speed-notification').html(content);
+      $('.speed-notification').show("easing");
+
+      setTimeout(function () {
+        $('.speed-notification').hide("easing");
+      }.bind(this), 900);
+
+      setTimeout(function () {
+        this.notifying = false;
+      }.bind(this), 1000);
+    }
+  };
+
+  View.SPEEDS = {
+    50: "fast",
+    100: "normal",
+    150: "slow",
+    200: "slowest"
   };
 
 })();
